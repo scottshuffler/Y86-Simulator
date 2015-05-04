@@ -1,0 +1,35 @@
+        .pos 0
+
+        irmovl dest, %eax
+        irmovl source, %ebx
+        irmovl $4, %ecx
+        nop
+        nop
+        mrmovl (%ebx), %edx
+        nop
+        nop
+        nop
+        rmmovl %edx, (%eax)
+        nop
+        nop
+        nop
+        addl %ecx, %eax
+        addl %ecx, %ebx
+        nop
+        nop
+        nop
+        mrmovl (%ebx), %edx
+        nop
+        nop
+        nop
+        rmmovl %edx, (%eax)
+        
+        dump 7
+
+        halt
+
+        .align 4
+source: .long 1
+        .long 2
+
+dest:

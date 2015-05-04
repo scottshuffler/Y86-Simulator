@@ -1,0 +1,33 @@
+                      | 
+  0x000:              |         .pos 0
+                      | 
+  0x000: 30f428000000 |         irmovl source, %esp
+  0x006: 10           |         nop
+  0x007: 10           |         nop
+  0x008: b03f         |         popl %ebx
+  0x00a: 10           |         nop
+  0x00b: 10           |         nop
+  0x00c: b01f         |         popl %ecx
+  0x00e: 10           |         nop
+  0x00f: 10           |         nop
+  0x010: 30f438000000 |         irmovl end, %esp
+  0x016: 10           |         nop
+  0x017: 10           |         nop
+  0x018: a01f         |         pushl %ecx
+  0x01a: 10           |         nop
+  0x01b: 10           |         nop
+  0x01c: a03f         |         pushl %ebx
+  0x01e: 10           |         nop
+  0x01f: 10           |         nop
+                      | 
+  0x020: c007000000   |         dump 7
+                      | 
+  0x025: 00           |         halt
+                      | 
+  0x028:              |         .align 4
+  0x028: 01000000     | source: .long 1
+  0x02c: 02000000     |         .long 2
+                      | 
+  0x030: 00000000     | dest:   .long 0
+  0x034: 00000000     |         .long 0
+  0x038: 00000000     | end:    .long 0

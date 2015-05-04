@@ -1,0 +1,53 @@
+        irmovl $4, %eax
+        irmovl $2, %ebx
+        irmovl $2, %ecx
+        irmovl $1, %edx
+        nop
+        nop
+        nop
+        addl %eax, %ecx
+        subl %ecx, %edx
+        nop
+        nop
+        nop
+        dump 7
+        mrmovl 8(%eax), %ecx
+        subl %ecx, %edx
+        nop
+        nop
+        nop
+        dump 7
+        addl %eax, %ecx
+        irmovl $3, %ebx
+        irmovl $4, %esi
+        subl %ecx, %edx
+        nop
+        nop
+        nop
+        dump 7
+        addl %eax, %ecx
+        popl %eax
+        subl %ecx, %eax
+        nop
+        nop
+        nop
+        dump 7
+        popl %ecx
+        irmovl $3, %eax
+        irmovl $4, %ebx
+        subl %ecx, %edx
+        nop
+        nop
+        nop
+        dump 7
+        popl %ecx
+        irmovl $3, %eax
+        irmovl $4, %ebx
+        irmovl $7, %esi
+        subl %ecx, %edx
+        nop
+        nop
+        nop
+        dump 7
+        halt
+

@@ -1,0 +1,32 @@
+        .pos 0
+
+        irmovl source, %esp
+        nop
+        nop
+        popl %ebx
+        nop
+        nop
+        popl %ecx
+        nop
+        nop
+        irmovl end, %esp
+        nop
+        nop
+        pushl %ecx
+        nop
+        nop
+        pushl %ebx
+        nop
+        nop
+
+        dump 7
+
+        halt
+
+        .align 4
+source: .long 1
+        .long 2
+
+dest:   .long 0
+        .long 0
+end:    .long 0

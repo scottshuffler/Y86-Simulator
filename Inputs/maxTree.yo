@@ -1,0 +1,88 @@
+                      | 
+                      | #
+                      | #    This file tests the call and return instructions
+                      | #    by calling a recursive maxTree function. The maxTree
+                      | #    function finds the maximum value in a binary tree.
+                      | #
+                      | #    Don't change this code
+  0x000:              |         .pos 0
+  0x000: 30f400040000 |         irmovl Stack, %esp
+  0x006: 30f500040000 |         irmovl Stack, %ebp
+  0x00c: 7011000000   |         jmp Main
+                      | #
+                      | #    Don't change this code
+  0x011: 30f160000000 | Main:   irmovl root, %ecx               # root of binary tree
+  0x017: a01f         |         pushl %ecx
+  0x019: 8024000000   |         call maxTree                    # gets max of tree; result in %eax
+  0x01e: c007000000   |         dump 7
+  0x023: 00           |         halt
+                      | #
+                      | #       int maxTree(Tree * treeptr)
+                      | #       {
+                      | #          if (treeptr == NULL)
+                      | #              return 0;
+                      | #          else if (treeptr->right == NULL)
+                      | #              return treeptr->value
+                      | #          else
+                      | #              return maxTree(treeptr->right)
+                      | #
+                      | #       }
+                      | #
+                      | #    Your work goes here
+  0x024:              | maxTree: #this function is missing 
+  0x024: 500108000000 |          mrmovl 8(%ecx), %eax
+  0x02a: 6200         |          andl %eax, %eax
+  0x02c: 7359000000   |          je exit
+                      | 
+  0x031: 30f304000000 |          irmovl $4, %ebx
+  0x037: 6031         |          addl %ebx, %ecx
+  0x039: 501100000000 | loop:    mrmovl (%ecx), %ecx
+  0x03f: 6031         |          addl %ebx, %ecx
+  0x041: 500104000000 |          mrmovl 4(%ecx), %eax
+  0x047: 502100000000 |          mrmovl (%ecx), %edx
+  0x04d: 6222         |          andl %edx, %edx
+  0x04f: 7359000000   |          je exit
+  0x054: 7039000000   |          jmp loop
+  0x059: 10           | exit:    nop
+  0x05a: 10           |          nop
+  0x05b: 90           |          ret
+  0x05c: 10           |          nop
+  0x05d: 10           |          nop
+  0x05e: 10           |          nop
+                      | 
+                      | #    Don't change this code
+  0x060:              |          .align 4
+  0x060: 6c000000     | root:    .long t1         #pointer to left node
+  0x064: 90000000     |          .long t2         #pointer to right node
+  0x068: 12000000     |          .long 0x12       #value of node
+                      | 
+  0x06c: 78000000     | t1:      .long t3 
+  0x070: 84000000     |          .long t4
+  0x074: 06000000     |          .long 0x6
+                      | 
+  0x078: 00000000     | t3:      .long 0 
+  0x07c: 00000000     |          .long 0
+  0x080: 03000000     |          .long 0x3
+                      | 
+  0x084: 00000000     | t4:      .long 0 
+  0x088: 00000000     |          .long 0
+  0x08c: 08000000     |          .long 0x8
+                      | 
+  0x090: 9c000000     | t2:      .long t5
+  0x094: a8000000     |          .long t6
+  0x098: 20000000     |          .long 0x20
+                      | 
+  0x09c: 00000000     | t5:      .long 0
+  0x0a0: 00000000     |          .long 0
+  0x0a4: 16000000     |          .long 0x16
+                      | 
+  0x0a8: 00000000     | t6:      .long 0
+  0x0ac: b4000000     |          .long t7
+  0x0b0: 22000000     |          .long 0x22
+                      | 
+  0x0b4: 00000000     | t7:      .long 0
+  0x0b8: 00000000     |          .long 0
+  0x0bc: 24000000     |          .long 0x24
+                      | 
+  0x400:              |          .pos 0x400
+  0x400:              | Stack:

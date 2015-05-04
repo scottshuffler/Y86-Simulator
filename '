@@ -1,0 +1,146 @@
+#include <stdbool.h>
+#include "decodeStage.h"
+#include "tools.h"
+#include "executeStage.h"
+#include "instructions.h"
+#include "forwarding.h"
+#include "registers.h"
+
+//D register holds the input for the decode stage.
+//It is only accessible from this file. (static)
+static dregister D;
+
+// Function: getDregister
+// Description: Returns a copy of the D register
+// Params: none
+// Returns: dregister
+// Modifies: none
+dregister getDregister()
+{
+    return D;
+}
+
+// Function: clearDregister
+// Description: Returns a copy of the D register
+// Params: none
+// Returns: none
+// Modifies: D
+void clearDregister()
+{
+    clearBuffer((char *) &D, sizeof(D));
+}
+
+void updateDregister(unsigned int stat, unsigned int icode, unsigned int ifun, unsigned int rA, unsigned int rB, unsigned int valC, unsigned int valP)
+{
+    D.stat = stat;
+    D.icode = icode;
+    D.ifun = ifun;
+    D.rA = rA;
+    D.rB = rB;
+    D.valC = valC;
+    D.valP = valP;
+}
+
+void decodeStage(forwardType forward)
+{
+    int srcA = getSrcA(D.icode);
+    int srcB = getSrcb(D.icode);
+    int dstE = getDstE(D.icode);
+    int dstM = getDstM(D.icode);
+    int valA = selectFwdA(srcA, forward);
+    int valB = FwdB(D.icode, forward);
+    updateEregister(D.stat, D.icode, D.ifun, D.valC, valA, valB, dstE, dstM, srcA, srcB);
+}
+
+int getSrcA(int icode)
+{
+    if (icode == rrmovl || icode == rmmovl || icode == OPL || icode == pushl)
+    {
+        return D.rA;
+    }
+   /* if (icode == popl || icode == ret)
+    {
+        return ESP;
+    }*/
+    return none;
+}
+
+int getSrcb(int icode)
+{
+    if (icode == OPL || icode == rmmovl || icode == mrmovl)
+    {
+       return D.rB;
+    }
+   /* if (icode == pushl || icode == popl || icode == call || icode == ret)
+    {
+        return ESP;
+    }*/
+    return none;
+}
+
+int getDstE(int icode)
+{
+    if (icode == rrmovl || icode == irmovl || icode == OPL)
+    {
+        return D.rB;
+    }
+    /*if (icode == pushl || icode == popl || icode == call || icode == ret)
+    {
+       return ESP;
+    }*/
+    return none;
+}
+
+int getDstM(int icode)
+{
+    if (icode == mrmovl || icode == OPL)
+    {
+        return D.rA;
+    }
+    return none;
+}
+
+int selectFwdA(int srcA,forwardType forward)
+{
+    /*if (icode == call || icode == jxx)
+    {
+        return D.valP;
+    }
+    if (srcA == E.dstE)
+    {
+        return E.valE;
+    }
+    if (srcA == M.dstE)
+    {
+        return M.valE;
+    }
+    if (srcA == W.dstM)
+    {
+        return W.valM;
+    }*/
+    if (srcA == RNONE)
+    {
+        return 0;
+    }
+    /*if (srcA == forward.W_dstE)
+    {
+        return forward.W_valE;
+    }*/
+    return getRegister(srcA);
+}
+
+int FwdB(int icode, forwardType forward)
+{
+    int srcB = getSrcb(icode);
+    if (srcB == RNONE)
+    {
+        return 0;
+    }
+    /*if (srcB == forward.W_dstE)
+    {
+        return forward.W_valE;
+    }*/
+    return getRegister(getSrcb(D.icode));
+}
+
+
